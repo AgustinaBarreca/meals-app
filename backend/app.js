@@ -51,8 +51,6 @@ app.post('/orders', async (req, res) => {
   };
 
   const orders = await fs.readFile('./data/orders.json', 'utf8');
-  console.log(orders, 'ordersorders')
-
   const allOrders = orders ? JSON.parse(orders) : [];
   allOrders.push(newOrder);
 

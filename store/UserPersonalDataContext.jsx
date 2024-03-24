@@ -14,7 +14,6 @@ const userPersonalDataReducer = (state, action) => {
     const usersUpdated = [...state]
     if (action.type === "ADD_USER") {
         const [{ id: lastUserId }] = [...state].reverse()
-        console.log(lastUserId, 'lastUserId')
         usersUpdated.push({ ...action.user, lastUserId: lastUserId + 1 })
     }
     return {
@@ -32,7 +31,6 @@ export const UserPersonalDataContextProvider = ({ children }) => {
     const [users, dispatch] = useReducer(userPersonalDataReducer, firstUser)
 
     const addUser = (user) => {
-        console.log('add user', user)
         dispatch({ type: 'ADD_USER', user })
     }
     const userPersonalDataContext = {
