@@ -1,6 +1,6 @@
 import { Modal } from "./UI/Modal"
 import { CartContext } from "../store/CartContex.jsx"
-import { useContext, useState, useEffect, useCallback } from "react"
+import { useContext, useState, useEffect } from "react"
 import { Button } from "./UI/Button"
 import { UserProgressContext } from "../store/UserProgressContext"
 import { CartItem } from "./CartItem"

@@ -39,6 +39,9 @@ const cartContextReducer = (state, action) => {
         }
         return { ...state, items: updatedItems }
     }
+    if (action.type === 'EMPTY_CART') {
+        return { items: [] }
+    }
 }
 export const CartContextProvider = ({ children }) => {
     const [carts, dispatchAction] = useReducer(cartContextReducer, { items: [] })
@@ -52,12 +55,17 @@ export const CartContextProvider = ({ children }) => {
         dispatchAction({ type: 'REMOVE_ITEM', id })
     }
 
+    const emptyCart = () => {
+        dispatchAction({ type: 'EMPTY_CART' })
+    }
+
     const cartContext = {
         items: carts.items,
         addItems,
         removeItems,
         totalCartPrice,
-        setTotalCartPrice
+        setTotalCartPrice,
+        emptyCart
     }
 
     return (<CartContext.Provider value={cartContext}> {children} </CartContext.Provider>)

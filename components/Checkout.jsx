@@ -14,12 +14,9 @@ export const Checkout = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log('en el handleSubmit')
-        console.log(items, 'items en el checkout')
 
         const formData = new FormData(e.target)
         const customerData = Object.fromEntries(formData.entries())
-        console.log(customerData, 'customerDatecustomerDate')
 
         fetch('http://localhost:3000/orders', {
             method: 'POST',
@@ -40,6 +37,8 @@ export const Checkout = () => {
         resetStreetProps()
         resetPostalCodeProps()
         resetCityProps()
+
+        cartContext.emptyCart()
 
         handleClose()
     }
@@ -76,15 +75,13 @@ export const Checkout = () => {
                 <div>
                     <p> Personal Data </p>
                     <form onSubmit={handleSubmit} id="userDataForm">
-                        <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '220px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '210px' }}>
                             <Input label="Name: " type="text" id="name"  {...nameProps} />
                             <Input label="Lastname: " type="text" id="lastname"  {...lastNameProps} />
                             <Input label="Email: " type="email" id="email"  {...emailProps} />
                             <Input label="Street: " type="text" id="street"  {...streetProps} />
-                            <div className="control-row">
-                                <Input label="Postal code: " type="text" id="postal-code" {...postalCodeProps} />
-                                <Input label="City: " type="text" id="city" {...cityProps} />
-                            </div>
+                            <Input label="Postal code: " type="text" id="postal-code" {...postalCodeProps} />
+                            <Input label="City: " type="text" id="city" {...cityProps} />
 
                             <p className="modal-actions">
                                 <Button> Submit </Button>
