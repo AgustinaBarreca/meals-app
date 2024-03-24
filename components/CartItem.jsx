@@ -8,7 +8,8 @@ export const CartItem = ({
     discountPricePercentage,
     handleDecreaseItem,
     handleIncreaseItem,
-    getFreePizza
+    getFreePizza,
+    showQuantityControls
 }) => {
     // make component leaner: 
     // const cartContext = useContext(CartContext)
@@ -73,11 +74,13 @@ export const CartItem = ({
                 <CartItemDiscount discountPriceFormatted={discountPriceFormatted} />
             }
         </div>
-        <p className="cart-item-actions">
-            <button onClick={handleDecreaseItem}> - </button>
-            <span> QTY </span>
-            <button onClick={handleIncreaseItem}> + </button>
-        </p>
+        {showQuantityControls &&
+            <p className="cart-item-actions">
+                <button onClick={handleDecreaseItem}> - </button>
+                <span> QTY </span>
+                <button onClick={handleIncreaseItem}> + </button>
+            </p>
+        }
     </li >
 }
 

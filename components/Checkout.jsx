@@ -5,12 +5,13 @@ import { UserProgressContext } from "../store/UserProgressContext"
 import { Button } from "./UI/Button.jsx"
 import { Input } from "./UI/Input.jsx"
 import { Modal } from "./UI/Modal"
+import { CartItem } from "./CartItem.jsx"
 
 
 export const Checkout = () => {
     const userProgressContext = useContext(UserProgressContext)
     const cartContext = useContext(CartContext)
-    const { totalCartPrice, items } = cartContext
+    const { totalCartPrice, items, showFreePizza } = cartContext
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -68,11 +69,18 @@ export const Checkout = () => {
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                <div> <p> Items detail ***</p>
+                <div> <p> Items details ***</p>
+                    <ul className="checkout-item-details">
+                        {cartContext.items.map((item) => <CartItem
+                            key={item.id}
+                            {...item}
+                        />)}
+                        {showFreePizza && <li> Free Pizza  </li>}
+                    </ul>
                     <p style={{ fontWeight: 'bold' }}> Total Amount: {totalCartPrice} </p>
                 </div>
 
-                <div>
+                <div className="personal-data-checkout-section">
                     <p> Personal Data </p>
                     <form onSubmit={handleSubmit} id="userDataForm">
                         <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '210px' }}>

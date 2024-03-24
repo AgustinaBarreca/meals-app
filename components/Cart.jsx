@@ -7,7 +7,7 @@ import { CartItem } from "./CartItem"
 
 export const Cart = () => {
     const cartContext = useContext(CartContext)
-    const { totalCartPrice, setTotalCartPrice } = cartContext
+    const { totalCartPrice, setTotalCartPrice, setShowFreePizza } = cartContext
 
     const userProgressContext = useContext(UserProgressContext)
     const [getFreePizza, setGetFreePizza] = useState(false)
@@ -45,9 +45,11 @@ export const Cart = () => {
         const handleFreePizza = () => {
             if (totalCartPrice >= minimumAmountToGetFreePizza) {
                 setGetFreePizza(true)
+                setShowFreePizza(true)
                 calculateDiscountPricePercentage(totalCartPrice)
             } else {
                 setGetFreePizza(false)
+                setShowFreePizza(false)
             }
         }
         handleFreePizza()
@@ -55,29 +57,32 @@ export const Cart = () => {
 
     return (
         <Modal className="cart" open={userProgressContext.userProgress === 'cart'} onClose={userProgressContext.userProgress === 'cart' ? handleClose : null}>
-            <h2> Your cart </h2>
-            <ul>
-                {cartContext.items.map((item) => <CartItem
-                    key={item.id}
-                    {...item}
-                    handleIncreaseItem={() => { handleIncreaseItem(item) }}
-                    handleDecreaseItem={() => { handleDecreaseItem(item.id) }}
-                    getFreePizza={getFreePizza}
-                    discountPricePercentage={discountPricePercentage}
-                />)}
-            </ul>
-            <p className="cart-total"> {totalCartPrice} </p>
-            <ul>
-                {getFreePizza ? <li>
-                    <p style={{ color: 'green', marginBottom: '10px' }}> Felicitaciones! Te llevás una pizza gratis de $ {freePizzaPrice} </p>
-                    <p style={{ fontSize: '10px' }}> * El monto del regalo se deducirá proporcionalmente entre los productos que compraste </p>
-                </li>
-                    : <li>
-                        <p style={{ color: 'red', marginBottom: '10px' }}> Si tu compra supera los $ {minimumAmountToGetFreePizza}, te llevas una pizza gratis de $ {freePizzaPrice} </p>
+            {cartContext && cartContext?.items.length > 0 ? <>
+                <h2> Your cart </h2>
+                <ul>
+                    {cartContext.items.map((item) => <CartItem
+                        key={item.id}
+                        {...item}
+                        handleIncreaseItem={() => { handleIncreaseItem(item) }}
+                        handleDecreaseItem={() => { handleDecreaseItem(item.id) }}
+                        getFreePizza={getFreePizza}
+                        discountPricePercentage={discountPricePercentage}
+                        showQuantityControls={true}
+                    />)}
+                </ul>
+                <p className="cart-total"> {totalCartPrice} </p>
+                <ul>
+                    {getFreePizza ? <li>
+                        <p style={{ color: 'green', marginBottom: '10px' }}> Felicitaciones! Te llevás una pizza gratis de $ {freePizzaPrice} </p>
                         <p style={{ fontSize: '10px' }}> * El monto del regalo se deducirá proporcionalmente entre los productos que compraste </p>
                     </li>
-                }
-            </ul>
+                        : <li>
+                            <p style={{ color: 'red', marginBottom: '10px' }}> Si tu compra supera los $ {minimumAmountToGetFreePizza}, te llevas una pizza gratis de $ {freePizzaPrice} </p>
+                            <p style={{ fontSize: '10px' }}> * El monto del regalo se deducirá proporcionalmente entre los productos que compraste </p>
+                        </li>
+                    }
+                </ul>
+            </> : <h2> Your cart is empty! </h2>}
             <p className="modal-actions">
                 <Button textOnly onClick={handleClose}> Close </Button>
 

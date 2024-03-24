@@ -6,6 +6,8 @@ export const CartContext = createContext({
     removeItems: () => { }
 })
 
+
+
 const cartContextReducer = (state, action) => {
     if (action.type === 'ADD_ITEM') {
         const existingCartItemIndex = state.items.findIndex((item) => item.id === action.item.id)
@@ -39,13 +41,19 @@ const cartContextReducer = (state, action) => {
         }
         return { ...state, items: updatedItems }
     }
+
     if (action.type === 'EMPTY_CART') {
         return { items: [] }
+    }
+
+    if (action.type === 'SHOW_GET_FREE_PIZZA') {
+        setShowFreePizza(action.value)
     }
 }
 export const CartContextProvider = ({ children }) => {
     const [carts, dispatchAction] = useReducer(cartContextReducer, { items: [] })
     const [totalCartPrice, setTotalCartPrice] = useState()
+    const [showFreePizza, setShowFreePizza] = useState(false)
 
     const addItems = (item) => {
         dispatchAction({ type: 'ADD_ITEM', item })
@@ -59,13 +67,19 @@ export const CartContextProvider = ({ children }) => {
         dispatchAction({ type: 'EMPTY_CART' })
     }
 
+    const showGetFreePizza = (value) => {
+        dispatchAction({ type: 'SHOW_GET_FREE_PIZZA', value })
+    }
+
     const cartContext = {
         items: carts.items,
         addItems,
         removeItems,
         totalCartPrice,
         setTotalCartPrice,
-        emptyCart
+        emptyCart,
+        showFreePizza,
+        setShowFreePizza
     }
 
     return (<CartContext.Provider value={cartContext}> {children} </CartContext.Provider>)
