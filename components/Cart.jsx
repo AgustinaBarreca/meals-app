@@ -7,7 +7,6 @@ import { CartItem } from "./CartItem"
 
 export const Cart = () => {
     const cartContext = useContext(CartContext)
-    // console.log(cartContext, 'cartContextcartContext')
     const { totalCartPrice, setTotalCartPrice } = cartContext
 
     const userProgressContext = useContext(UserProgressContext)
@@ -16,7 +15,6 @@ export const Cart = () => {
 
     const cartTotal = cartContext.items.reduce((totalPrice, item) => totalPrice + item.quantity * item.price, 0)
     const cartTotalFormatted = cartTotal.toFixed(2)
-    console.log(cartTotalFormatted, 'cartTotalFormatted')
     setTotalCartPrice(cartTotalFormatted)
 
     const minimumAmountToGetFreePizza = 55
